@@ -74,16 +74,18 @@
       let month = String(now.getMonth() + 1).padStart(2, '0');
       let year = now.getFullYear();
 
-      // URL বানানো name + তারিখ দিয়ে
-      let link = "https://" + name + "/Note-" + day + "-" + month + "-" + year;
+      let linkPath = "/Note-" + day + "-" + month + "-" + year;
 
-      // টেক্সট ডাটা URL এ পাঠানো
+      // একই ডোমেইনে কাজ করানোর জন্য
+      let base = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, "");
+      let link = base + linkPath;
+
+      // ডাটা URL এ যোগ
       let data = encodeURIComponent(JSON.stringify({title, name, story, date: day+"-"+month+"-"+year}));
-
       let finalLink = link + "?data=" + data;
 
       document.getElementById("linkBox").innerHTML =
-        "<b>লিংক:</b> <a href='" + finalLink + "' target='_blank'>" + link + "</a>";
+        "<b>লিংক:</b> <a href='" + finalLink + "' target='_blank'>" + finalLink + "</a>";
     }
 
     // লিংক খোলা হলে ডাটা দেখানো

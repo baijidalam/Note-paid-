@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Note Publisher</title>
+  <style>
+    body {
+      background: #111;
+      color: #ccc;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    input, textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #444;
+      color: #fff;
+      font-size: 18px;
+      margin: 10px 0;
+      width: 300px;
+      outline: none;
+    }
+    textarea {
+      height: 100px;
+      resize: none;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      font-size: 18px;
+      border: 2px solid #fff;
+      border-radius: 25px;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #fff;
+      color: #111;
+    }
+    #linkBox {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #0f0;
+    }
+  </style>
+</head>
+<body>
+
+  <input type="text" id="title" placeholder="Title"><br>
+  <input type="text" id="name" placeholder="Your name"><br>
+  <textarea id="story" placeholder="Your story..."></textarea><br>
+  <button onclick="publishNote()">PUBLISH</button>
+
+  <div id="linkBox"></div>
+
+  <script>
+    function publishNote() {
+      let title = document.getElementById("title").value.trim();
+      let name = document.getElementById("name").value.trim();
+      let story = document.getElementById("story").value.trim();
+
+      if (!title || !name || !story) {
+        alert("সবগুলো ঘর পূরণ করুন!");
+        return;
+      }
+
+      let now = new Date();
+      let day = String(now.getDate()).padStart(2, '0');
+      let month = String(now.getMonth() + 1).padStart(2, '0');
+      let year = now.getFullYear();
+
+      // দিন-মাস-বছর ফরম্যাটে লিংক তৈরি
+      let link = "https://baijid/Note-" + day + "-" + month + "-" + year;
+
+      // লিংক দেখানো
+      document.getElementById("linkBox").innerHTML =
+        "<b>লিংক:</b> <a href='" + link + "' target='_blank'>" + link + "</a>";
+    }
+  </script>
+</body>
+</html>

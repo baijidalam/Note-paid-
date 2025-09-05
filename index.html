@@ -74,12 +74,34 @@
       let month = String(now.getMonth() + 1).padStart(2, '0');
       let year = now.getFullYear();
 
-      // দিন-মাস-বছর ফরম্যাটে লিংক তৈরি
-      let link = "https://baijid/Note-" + day + "-" + month + "-" + year;
+      // URL বানানো name + তারিখ দিয়ে
+      let link = "https://" + name + "/Note-" + day + "-" + month + "-" + year;
 
-      // লিংক দেখানো
+      // টেক্সট ডাটা URL এ পাঠানো
+      let data = encodeURIComponent(JSON.stringify({title, name, story, date: day+"-"+month+"-"+year}));
+
+      let finalLink = link + "?data=" + data;
+
       document.getElementById("linkBox").innerHTML =
-        "<b>লিংক:</b> <a href='" + link + "' target='_blank'>" + link + "</a>";
+        "<b>লিংক:</b> <a href='" + finalLink + "' target='_blank'>" + link + "</a>";
+    }
+
+    // লিংক খোলা হলে ডাটা দেখানো
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let data = urlParams.get("data");
+      if (data) {
+        try {
+          let obj = JSON.parse(decodeURIComponent(data));
+          document.body.innerHTML = `
+            <h1 style="color:#fff;">${obj.title}</h1>
+            <p style="color:#aaa;font-size:18px;">${obj.name} — ${obj.date}</p>
+            <p style="color:#ccc;font-size:20px;margin-top:20px;">${obj.story}</p>
+          `;
+        } catch(e) {
+          console.error("Invalid data");
+        }
+      }
     }
   </script>
 </body>
